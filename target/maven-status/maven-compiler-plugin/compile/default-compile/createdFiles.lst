@@ -1,0 +1,6 @@
+com\example\model\Item.class
+com\example\controller\ItemController.class
+com\example\repository\ItemRepository$1.class
+com\example\ItemManagerApplication.class
+com\example\repository\ItemRepository.class
+com\example\service\ItemService.class

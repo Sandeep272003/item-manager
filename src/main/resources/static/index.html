@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Item Manager — Professional UI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page" id="root">
+  <!-- Decorative orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb violet"></div>
+    <div class="orb cyan"></div>
+    <div class="orb coral"></div>
+  </div>
+
+  <div class="main-container">
+    <!-- Header / Hero -->
+    <header class="hero-card" role="banner">
+      <div>
+        <h1 class="hero-title">Item Manager</h1>
+        <p class="hero-sub">Create, browse and manage items with a polished UI — search, sort, pagination, and details.</p>
+      </div>
+
+      <div class="row" style="gap:1rem;align-items:center">
+        <!-- Theme toggle -->
+        <div class="glass" id="themeToggleWrap" style="display:flex;align-items:center;gap:.75rem">
+          <button id="lightBtn" class="icon-btn" title="Light mode" aria-label="Light mode">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+            </svg>
+          </button>
+
+          <div class="toggle-switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle theme">
+            <div class="toggle-knob" id="toggleKnob"></div>
+          </div>
+
+          <button id="darkBtn" class="icon-btn" title="Dark mode" aria-label="Dark mode">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <button class="cta" id="openAdd">Add Item</button>
+      </div>
+    </header>
+
+    <!-- Panels -->
+    <div class="grid-layout" role="main">
+      <!-- Left: Form panel -->
+      <section class="glass-strong" id="formPanel" aria-labelledby="formTitle">
+        <h2 id="formTitle">Add / Edit Item</h2>
+
+        <form id="itemForm" novalidate>
+          <input type="hidden" id="itemId" />
+
+          <div class="form-group">
+            <label class="floating-label" for="name">Name</label>
+            <input id="name" class="input-large" placeholder="Item name" maxlength="120" required />
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="floating-label" for="description">Description</label>
+            <textarea id="description" class="input-large" placeholder="Short description" maxlength="1000" required></textarea>
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="floating-label" for="price">Price</label>
+            <input id="price" class="input-large" type="number" step="0.01" min="0" placeholder="0.00" required />
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="row" style="justify-content:flex-end;margin-top:0.5rem">
+            <button type="button" id="resetBtn" class="btn">Reset</button>
+            <button type="submit" id="submitBtn" class="cta">Save Item</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right: List panel -->
+      <section class="glass" id="listPanel" aria-labelledby="listTitle">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div>
+            <h3 id="listTitle" style="margin:0">Items</h3>
+            <p class="small muted" style="margin:6px 0 0">Search, sort and browse items</p>
+          </div>
+
+          <div class="row">
+            <input id="searchInput" class="input-large" placeholder="Search items..." style="width:220px;padding:.75rem" />
+            <select id="sortSelect" class="input-large" style="width:160px;padding:.6rem">
+              <option value="">Sort By</option>
+              <option value="name,asc">Name A → Z</option>
+              <option value="name,desc">Name Z → A</option>
+              <option value="price,asc">Price Low → High</option>
+              <option value="price,desc">Price High → Low</option>
+              <option value="createdAt,desc">Newest</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="itemsContainer" style="margin-top:1rem;display:grid;gap:12px" aria-live="polite"></div>
+
+        <div class="row" style="justify-content:center;margin-top:1rem">
+          <button id="prevPage" class="btn">Prev</button>
+          <div id="pageInfo" class="small muted" style="padding:0 .75rem">Page 1</div>
+          <button id="nextPage" class="btn">Next</button>
+        </div>
+      </section>
+    </div>
+
+    <footer style="text-align:center;color:var(--muted);font-size:.95rem;padding-top:1rem">
+      Built with care • JSON persistence • Responsive UI
+    </footer>
+  </div>
+
+  <!-- Details / Edit Modal -->
+  <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+      <h3 id="detailName"></h3>
+      <p id="detailDesc"></p>
+      <p><strong>Price</strong>: ₹<span id="detailPrice"></span></p>
+      <p><small>Created: <span id="detailCreated"></span></small></p>
+      <div class="modal-actions">
+        <button id="editBtn" class="btn">Edit</button>
+        <button id="deleteBtn" class="btn danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

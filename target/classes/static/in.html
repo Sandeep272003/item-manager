@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Item Manager — Professional UI</title>
+  <style>/* Advanced register-like UI (compact) */
+
+/* Palette variables */
+:root{
+  --bg-dark:#0b1020;
+  --muted:#9fb0c8;
+  --violet:#7c3aed;
+  --cyan:#06b6d4;
+  --coral:#ff7a59;
+  --glass:rgba(255,255,255,0.03);
+  --bg-light:#f6f8fb;
+  --muted-light:#6b7280;
+  --violet-light:#6d28d9;
+  --cyan-light:#0891b2;
+  --coral-light:#ff6b4a;
+  --max-width:1200px;
+
+  /* new accent for sort options */
+  --sort-accent: #ffd166; /* warm yellow for visibility */
+  --sort-placeholder: #cbd5e1; /* muted placeholder color */
+}
+
+/* Base */
+html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-serif}
+.page{min-height:100vh;position:relative;overflow:hidden;background:radial-gradient(900px 450px at 8% 12%, rgba(124,58,237,0.08), transparent),radial-gradient(700px 350px at 92% 82%, rgba(6,182,212,0.06), transparent),var(--bg-dark);color:#e6eef8}
+.light-mode.page{background:linear-gradient(180deg,#ffffff,#f6f8fb);color:#0f1724}
+
+/* Orbs */
+.bg-orbs{position:absolute;inset:0;pointer-events:none;z-index:0}
+.orb{position:absolute;width:34rem;height:34rem;border-radius:9999px;filter:blur(84px);opacity:0.18;mix-blend-mode:screen}
+.orb.violet{background:linear-gradient(135deg,rgba(124,58,237,0.95),rgba(124,58,237,0.6));left:-10rem;top:-12rem;animation:float 8s ease-in-out infinite}
+.orb.cyan{background:linear-gradient(135deg,rgba(6,182,212,0.95),rgba(6,182,212,0.6));right:-10rem;top:6rem;animation:float 9s ease-in-out infinite;animation-delay:1s}
+.orb.coral{background:linear-gradient(135deg,rgba(255,122,89,0.95),rgba(255,122,89,0.6));left:18%;bottom:-12rem;animation:float 10s ease-in-out infinite;animation-delay:2s}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
+
+/* Layout */
+.main-container{max-width:var(--max-width);margin:0 auto;padding:4rem 2rem;display:flex;flex-direction:column;gap:2.5rem;position:relative;z-index:1}
+.hero-card{border-radius:28px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:3rem;box-shadow:0 30px 80px rgba(2,4,23,0.6);display:flex;gap:2rem;align-items:center;justify-content:space-between}
+.hero-title{font-size:clamp(2.2rem,5vw,3.6rem);margin:0;font-weight:900;background:linear-gradient(90deg,var(--coral),var(--cyan),var(--violet));-webkit-background-clip:text;color:transparent;line-height:1}
+.hero-sub{margin-top:.75rem;color:var(--muted);font-size:1.05rem;max-width:60ch}
+
+/* Grid layout for panels */
+.grid-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:start}
+@media (max-width:1100px){.grid-layout{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.grid-layout{grid-template-columns:1fr;gap:16px}}
+
+/* Glass panels */
+.glass{background:var(--glass);backdrop-filter:blur(14px);border-radius:16px;border:1px solid rgba(255,255,255,0.05);padding:1.5rem}
+.glass-strong{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:18px;padding:2rem;border:1px solid rgba(255,255,255,0.06)}
+
+/* Form */
+.form-group{position:relative;margin-bottom:1rem}
+.input-large{width:100%;padding:1.25rem 1.5rem;border-radius:20px;font-size:1.125rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:inherit;outline:none;transition:all .22s ease;box-shadow:inset 0 -1px 0 rgba(255,255,255,0.02)}
+.input-large::placeholder{color:rgba(255,255,255,0.28)}
+.input-large:focus{transform:translateY(-3px);box-shadow:0 18px 60px rgba(124,58,237,0.08);border-color:var(--cyan)}
+.focus-halo{position:absolute;inset:0;border-radius:20px;pointer-events:none;opacity:0;transition:opacity .28s ease}
+.input-large:focus+.focus-halo{opacity:1;box-shadow:0 30px 80px rgba(6,182,212,0.08)}
+.floating-label{position:absolute;left:1.25rem;top:-0.8rem;background:transparent;padding:0 .5rem;font-size:.95rem;font-weight:800;color:var(--coral)}
+
+/* Buttons */
+.btn{padding:10px 14px;border-radius:12px;border:none;background:rgba(255,255,255,0.04);color:inherit;cursor:pointer;font-weight:700}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:10px;border:none;background:transparent;color:inherit;cursor:pointer}
+.cta{display:inline-block;padding:14px 20px;border-radius:20px;font-weight:900;font-size:1.05rem;border:none;cursor:pointer;background:linear-gradient(90deg,rgba(255,122,89,1),rgba(6,182,212,1));color:#fff;box-shadow:0 18px 60px rgba(124,58,237,0.08);transition:transform .18s ease,box-shadow .18s ease}
+.cta:hover{transform:translateY(-4px);box-shadow:0 36px 120px rgba(124,58,237,0.14)}
+.btn.danger{background:var(--coral);color:#fff;border-radius:10px;padding:8px 12px}
+
+/* Items grid */
+.items-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+@media (max-width:1100px){.items-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:820px){.items-grid{grid-template-columns:1fr}}
+
+/* Result cards */
+.result-card{border-radius:16px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-top:4px solid transparent;transition:all .28s ease;display:flex;justify-content:space-between;align-items:center}
+.result-card:hover{border-top-color:var(--violet);box-shadow:0 18px 60px rgba(7,12,30,0.6)}
+.item-meta h4{margin:0;font-size:1.15rem}
+.item-meta p{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
+
+/* Sort select styling */
+/* style the select itself */
+#sortSelect {
+  color: var(--sort-accent);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 12px;
+  border-radius: 12px;
+  font-weight:700;
+  min-width:160px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--sort-accent) 50%), linear-gradient(135deg, var(--sort-accent) 50%, transparent 50%), linear-gradient(to right, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+  background-position: calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px), 100% 0;
+  background-size: 6px 6px, 6px 6px, 1px 1px;
+  background-repeat: no-repeat;
+}
+
+/* placeholder option muted color */
+.sort-placeholder { color: var(--sort-placeholder); font-weight:700; }
+
+/* option color in supported browsers */
+.sort-option { color: var(--sort-accent); font-weight:800; }
+
+/* Toggle switch */
+.toggle-switch{width:56px;height:30px;border-radius:999px;background:rgba(255,255,255,0.06);position:relative;cursor:pointer;display:inline-block}
+.toggle-knob{width:26px;height:26px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .22s cubic-bezier(.2,.9,.2,1),transform .22s}
+.light-mode .toggle-switch{background:rgba(15,23,42,0.06)}
+.light-mode .toggle-knob{left:28px;background:#0b1020;color:#fff;transform:rotate(20deg)}
+
+/* Modal */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:60}
+.modal.hidden{display:none}
+.modal-content{background:var(--card, #0f1724);padding:22px;border-radius:12px;max-width:640px;width:92%;box-shadow:0 30px 80px rgba(2,4,23,0.6);position:relative;color:inherit}
+.modal-close{position:absolute;right:12px;top:8px;border:none;background:transparent;font-size:22px;cursor:pointer}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+
+/* Utilities */
+.row{display:flex;gap:1rem;align-items:center}.col{display:flex;flex-direction:column;gap:0.75rem}.center{display:flex;align-items:center;justify-content:center}.muted{color:var(--muted)}.small{font-size:.95rem;color:var(--muted)}
+.light-mode .hero-card{box-shadow:0 20px 40px rgba(15,23,42,0.06);border:1px solid rgba(15,23,42,0.04)}
+.light-mode .input-large{background:#fff;color:#0f1724;border:1px solid rgba(15,23,42,0.06)}
+.light-mode .floating-label{color:var(--coral-light)}
+.light-mode .modal-content{background:#fff;color:#0f1724;box-shadow:0 20px 60px rgba(15,23,42,0.06)}
+
+/* Footer */
+.footer-note{text-align:center;color:var(--muted);font-size:0.95rem;padding-top:1rem}
+
+/* Small responsive tweaks */
+@media (max-width:640px){
+  .hero-card{padding:1.5rem;flex-direction:column;align-items:flex-start}
+  .main-container{padding:2rem 1rem}
+  .cta{padding:12px 16px;font-size:1rem}
+  .items-grid{grid-template-columns:1fr}
+  .input-large{padding:12px}
+  .hero-title{font-size:1.8rem}
+}
+</style>
+</head>
+<body class="page" id="root">
+  <!-- Decorative orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb violet"></div>
+    <div class="orb cyan"></div>
+    <div class="orb coral"></div>
+  </div>
+
+  <div class="main-container">
+    <!-- Header / Hero -->
+    <header class="hero-card" role="banner">
+      <div>
+        <h1 class="hero-title">Item Manager</h1>
+        <p class="hero-sub">Create, browse and manage items with a polished UI — search, sort, pagination, and details.</p>
+      </div>
+
+      <div class="row" style="gap:1rem;align-items:center">
+        <!-- Theme toggle -->
+        <div class="glass" id="themeToggleWrap" style="display:flex;align-items:center;gap:.75rem">
+          <button id="lightBtn" class="icon-btn" title="Light mode" aria-label="Light mode">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+            </svg>
+          </button>
+
+          <div class="toggle-switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle theme">
+            <div class="toggle-knob" id="toggleKnob"></div>
+          </div>
+
+          <button id="darkBtn" class="icon-btn" title="Dark mode" aria-label="Dark mode">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <button class="cta" id="openAdd">Add Item</button>
+      </div>
+    </header>
+
+    <!-- Panels -->
+    <div class="grid-layout" role="main">
+      <!-- Left: Form panel -->
+      <section class="glass-strong" id="formPanel" aria-labelledby="formTitle">
+        <h2 id="formTitle">Add / Edit Item</h2>
+
+        <form id="itemForm" novalidate>
+          <input type="hidden" id="itemId" />
+
+          <div class="form-group">
+            <label class="floating-label" for="name">Name</label>
+            <input id="name" class="input-large" placeholder="Item name" maxlength="120" required />
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="floating-label" for="description">Description</label>
+            <textarea id="description" class="input-large" placeholder="Short description" maxlength="1000" required></textarea>
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="floating-label" for="price">Price</label>
+            <input id="price" class="input-large" type="number" step="0.01" min="0" placeholder="0.00" required />
+            <div class="focus-halo"></div>
+          </div>
+
+          <div class="row" style="justify-content:flex-end;margin-top:0.5rem">
+            <button type="button" id="resetBtn" class="btn">Reset</button>
+            <button type="submit" id="submitBtn" class="cta">Save Item</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Right: List panel -->
+      <section class="glass" id="listPanel" aria-labelledby="listTitle">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div>
+            <h3 id="listTitle" style="margin:0">Items</h3>
+            <p class="small muted" style="margin:6px 0 0">Search, sort and browse items</p>
+          </div>
+
+          <div class="row">
+            <input id="searchInput" class="input-large" placeholder="Search items..." style="width:220px;padding:.75rem" />
+            <select id="sortSelect" class="input-large" style="width:160px;padding:.6rem">
+              <option value="">Sort By</option>
+              <option value="name,asc">Name A → Z</option>
+              <option value="name,desc">Name Z → A</option>
+              <option value="price,asc">Price Low → High</option>
+              <option value="price,desc">Price High → Low</option>
+              <option value="createdAt,desc">Newest</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="itemsContainer" style="margin-top:1rem;display:grid;gap:12px" aria-live="polite"></div>
+
+        <div class="row" style="justify-content:center;margin-top:1rem">
+          <button id="prevPage" class="btn">Prev</button>
+          <div id="pageInfo" class="small muted" style="padding:0 .75rem">Page 1</div>
+          <button id="nextPage" class="btn">Next</button>
+        </div>
+      </section>
+    </div>
+
+    <footer style="text-align:center;color:var(--muted);font-size:.95rem;padding-top:1rem">
+      Built with care • JSON persistence • Responsive UI
+    </footer>
+  </div>
+
+  <!-- Details / Edit Modal -->
+  <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+      <h3 id="detailName"></h3>
+      <p id="detailDesc"></p>
+      <p><strong>Price</strong>: ₹<span id="detailPrice"></span></p>
+      <p><small>Created: <span id="detailCreated"></span></small></p>
+      <div class="modal-actions">
+        <button id="editBtn" class="btn">Edit</button>
+        <button id="deleteBtn" class="btn danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>/**
+ * script.js — frontend logic for Item Manager
+ * - Endpoints: /api/items
+ * - Supports add, edit, delete, list, search, sort, pagination
+ * - Theme toggle persisted to localStorage
+ *
+ * NOTE: optional/category field removed from form and payload as requested.
+ */
+
+const apiBase = '/api/items';
+let page = 0, size = 10, sort = '', q = '';
+
+/* Theme toggle */
+const themeSwitch = document.getElementById('themeSwitch');
+const lightBtn = document.getElementById('lightBtn');
+const darkBtn = document.getElementById('darkBtn');
+
+function applyTheme(isLight) {
+  if (isLight) {
+    document.body.classList.add('light-mode');
+    themeSwitch?.setAttribute('aria-checked', 'true');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.body.classList.remove('light-mode');
+    themeSwitch?.setAttribute('aria-checked', 'false');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') applyTheme(true);
+  else if (saved === 'dark') applyTheme(false);
+  else {
+    const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    applyTheme(prefersLight);
+  }
+})();
+
+themeSwitch?.addEventListener('click', () => applyTheme(!document.body.classList.contains('light-mode')));
+themeSwitch?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); themeSwitch.click(); }});
+lightBtn?.addEventListener('click', () => applyTheme(true));
+darkBtn?.addEventListener('click', () => applyTheme(false));
+
+/* App init */
+document.addEventListener('DOMContentLoaded', () => {
+  bindForm();
+  bindControls();
+  loadItems();
+});
+
+/* Form handling */
+function bindForm() {
+  const form = document.getElementById('itemForm');
+  const resetBtn = document.getElementById('resetBtn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await submitForm();
+  });
+
+  resetBtn.addEventListener('click', resetForm);
+}
+
+async function submitForm() {
+  const id = document.getElementById('itemId').value || null;
+  const name = document.getElementById('name').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const priceRaw = document.getElementById('price').value;
+  const price = priceRaw === '' ? 0 : parseFloat(priceRaw);
+
+  if (!name || !description || isNaN(price) || price < 0) {
+    showToast('Please provide valid name, description and non-negative price.');
+    return;
+  }
+
+  // payload no longer includes optional fields
+  const payload = { name, description, price };
+
+  try {
+    let res;
+    if (id) {
+      res = await fetch(`${apiBase}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await fetch(apiBase, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (!res.ok) {
+      const text = await res.text();
+      showToast('Failed: ' + (text || res.statusText));
+      return;
+    }
+
+    resetForm();
+    page = 0;
+    loadItems();
+    showToast(id ? 'Item updated' : 'Item added');
+  } catch (err) {
+    console.error(err);
+    showToast('Network error');
+  }
+}
+
+function resetForm() {
+  document.getElementById('itemForm').reset();
+  document.getElementById('itemId').value = '';
+  document.getElementById('submitBtn').textContent = 'Save Item';
+}
+
+/* Controls */
+function bindControls() {
+  const searchInput = document.getElementById('searchInput');
+  const sortSelect = document.getElementById('sortSelect');
+
+  searchInput?.addEventListener('input', (e) => {
+    q = e.target.value.trim();
+    page = 0;
+    debounceLoad();
+  });
+
+  sortSelect?.addEventListener('change', (e) => {
+    sort = e.target.value;
+    page = 0;
+    loadItems();
+  });
+
+  document.getElementById('prevPage').addEventListener('click', () => { if (page > 0) { page--; loadItems(); }});
+  document.getElementById('nextPage').addEventListener('click', () => { page++; loadItems(); });
+
+  document.getElementById('openAdd').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    resetForm();
+    document.getElementById('name').focus();
+  });
+}
+
+/* Debounce */
+let debounceTimer = null;
+function debounceLoad() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => loadItems(), 300);
+}
+
+/* Load items */
+async function loadItems() {
+  const params = new URLSearchParams();
+  if (q) params.append('q', q);
+  params.append('page', page);
+  params.append('size', size);
+  if (sort) params.append('sort', sort);
+
+  try {
+    const res = await fetch(`${apiBase}?${params.toString()}`);
+    if (!res.ok) throw new Error('Failed to fetch items');
+    const data = await res.json();
+    renderItems(data.items || []);
+    updatePageInfo(data.page ?? page, data.size ?? size, data.total ?? (data.items?.length ?? 0));
+  } catch (err) {
+    console.error(err);
+    showToast('Could not load items');
+  }
+}
+
+/* Render list */
+function renderItems(items) {
+  const container = document.getElementById('itemsContainer');
+  container.innerHTML = '';
+  if (!items.length) {
+    container.innerHTML = `<div class="result-card"><div class="item-meta"><h4>No items found</h4><p class="muted">Try adding a new item or change search filters.</p></div></div>`;
+    return;
+  }
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.innerHTML = `
+      <div class="item-meta">
+        <h4>${escapeHtml(item.name)}</h4>
+        <p>${escapeHtml(truncate(item.description, 160))}</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="text-align:right">
+          <div style="font-weight:800;font-size:1.05rem">₹${(item.price ?? 0).toFixed(2)}</div>
+          <div class="small muted">${new Date(item.createdAt || Date.now()).toLocaleString()}</div>
+        </div>
+        <div>
+          <button class="btn" onclick="showDetails(${item.id})">Details</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+/* Pagination info */
+function updatePageInfo(p, s, total) {
+  const pageInfo = document.getElementById('pageInfo');
+  const from = total ? (p * s + 1) : 0;
+  const to = Math.min((p + 1) * s, total);
+  pageInfo.textContent = `Showing ${total ? from : 0} - ${to} of ${total} (Page ${p + 1})`;
+  document.getElementById('prevPage').disabled = p <= 0;
+  document.getElementById('nextPage').disabled = to >= total;
+}
+
+/* Details modal */
+const detailModal = document.getElementById('detailModal');
+const closeModalBtn = document.getElementById('closeModal');
+if (closeModalBtn) closeModalBtn.addEventListener('click', () => hideModal());
+
+async function showDetails(id) {
+  try {
+    const res = await fetch(`${apiBase}/${id}`);
+    if (!res.ok) { showToast('Item not found'); return; }
+    const item = await res.json();
+    document.getElementById('detailName').textContent = item.name;
+    document.getElementById('detailDesc').textContent = item.description;
+    document.getElementById('detailPrice').textContent = (item.price ?? 0).toFixed(2);
+    document.getElementById('detailCreated').textContent = new Date(item.createdAt || Date.now()).toLocaleString();
+
+    document.getElementById('editBtn').onclick = () => openEdit(item);
+    document.getElementById('deleteBtn').onclick = () => confirmDelete(item.id);
+
+    showModal();
+  } catch (err) {
+    console.error(err);
+    showToast('Failed to load details');
+  }
+}
+
+function showModal() {
+  if (!detailModal) return;
+  detailModal.classList.remove('hidden');
+  detailModal.setAttribute('aria-hidden', 'false');
+}
+
+function hideModal() {
+  if (!detailModal) return;
+  detailModal.classList.add('hidden');
+  detailModal.setAttribute('aria-hidden', 'true');
+}
+
+/* Edit flow */
+function openEdit(item) {
+  hideModal();
+  document.getElementById('itemId').value = item.id;
+  document.getElementById('name').value = item.name;
+  document.getElementById('description').value = item.description;
+  document.getElementById('price').value = item.price ?? 0;
+  document.getElementById('submitBtn').textContent = 'Update Item';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Delete flow */
+async function confirmDelete(id) {
+  if (!confirm('Delete this item permanently?')) return;
+  try {
+    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE' });
+    if (res.status === 204) {
+      showToast('Deleted');
+      hideModal();
+      loadItems();
+    } else {
+      showToast('Failed to delete');
+    }
+  } catch (err) {
+    console.error(err);
+    showToast('Network error');
+  }
+}
+
+/* Helpers */
+function truncate(str, n) {
+  if (!str) return '';
+  return str.length > n ? str.slice(0, n - 1) + '…' : str;
+}
+
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  return unsafe.replace(/[&<"'>]/g, function (m) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m];
+  });
+}
+
+/* Toast */
+let toastTimer = null;
+function showToast(msg) {
+  if (!document.body) { alert(msg); return; }
+  let toast = document.getElementById('app-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'app-toast';
+    toast.style.position = 'fixed';
+    toast.style.right = '20px';
+    toast.style.bottom = '20px';
+    toast.style.background = 'rgba(15,23,42,0.92)';
+    toast.style.color = '#fff';
+    toast.style.padding = '12px 16px';
+    toast.style.borderRadius = '10px';
+    toast.style.boxShadow = '0 10px 30px rgba(2,6,23,0.6)';
+    toast.style.zIndex = 9999;
+    toast.style.transition = 'opacity .28s ease';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+}
+</script>
+</body>
+</html>

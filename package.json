@@ -1,0 +1,9 @@
+{
+  "name": "items-manager-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "vercel-build": "echo \"no build needed\" && exit 0",
+    "build": "npm run vercel-build"
+  }
+}

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="page" id="root">
+  <!-- Decorative orbs -->
   <div class="bg-orbs" aria-hidden="true">
     <div class="orb violet"></div>
     <div class="orb cyan"></div>
@@ -14,6 +15,7 @@
   </div>
 
   <div class="main-container">
+    <!-- Header / Hero -->
     <header class="hero-card" role="banner">
       <div>
         <h1 class="hero-title">Item Manager</h1>
@@ -21,19 +23,33 @@
       </div>
 
       <div class="row" style="gap:1rem;align-items:center">
+        <!-- Theme toggle -->
         <div class="glass" id="themeToggleWrap" style="display:flex;align-items:center;gap:.75rem">
-          <button id="lightBtn" class="icon-btn" title="Light mode" aria-label="Light mode">☀️</button>
+          <button id="lightBtn" class="icon-btn" title="Light mode" aria-label="Light mode">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+            </svg>
+          </button>
+
           <div class="toggle-switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle theme">
             <div class="toggle-knob" id="toggleKnob"></div>
           </div>
-          <button id="darkBtn" class="icon-btn" title="Dark mode" aria-label="Dark mode">🌙</button>
+
+          <button id="darkBtn" class="icon-btn" title="Dark mode" aria-label="Dark mode">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
         </div>
 
         <button class="cta" id="openAdd">Add Item</button>
       </div>
     </header>
 
+    <!-- Panels -->
     <div class="grid-layout" role="main">
+      <!-- Left: Form panel -->
       <section class="glass-strong" id="formPanel" aria-labelledby="formTitle">
         <h2 id="formTitle">Add / Edit Item</h2>
 
@@ -65,6 +81,7 @@
         </form>
       </section>
 
+      <!-- Right: List panel -->
       <section class="glass" id="listPanel" aria-labelledby="listTitle">
         <div class="row" style="justify-content:space-between;align-items:center">
           <div>
@@ -100,6 +117,7 @@
     </footer>
   </div>
 
+  <!-- Details / Edit Modal -->
   <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content">
       <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>

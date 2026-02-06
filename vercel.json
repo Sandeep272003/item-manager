@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "items-manager",
+  "builds": [
+    { "src": "public/**", "use": "@vercel/static" },
+    { "src": "index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "https://items-manager-yvbd.onrender.com/api/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}

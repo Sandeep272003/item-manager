@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Item Manager — Professional UI</title>
   <style>/* Advanced register-like UI (compact) */
-
 /* Palette variables */
 :root{
   --bg-dark:#0b1020;
@@ -20,17 +19,14 @@
   --cyan-light:#0891b2;
   --coral-light:#ff6b4a;
   --max-width:1200px;
-
   /* new accent for sort options */
   --sort-accent: #ffd166; /* warm yellow for visibility */
   --sort-placeholder: #cbd5e1; /* muted placeholder color */
 }
-
 /* Base */
 html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-serif}
 .page{min-height:100vh;position:relative;overflow:hidden;background:radial-gradient(900px 450px at 8% 12%, rgba(124,58,237,0.08), transparent),radial-gradient(700px 350px at 92% 82%, rgba(6,182,212,0.06), transparent),var(--bg-dark);color:#e6eef8}
 .light-mode.page{background:linear-gradient(180deg,#ffffff,#f6f8fb);color:#0f1724}
-
 /* Orbs */
 .bg-orbs{position:absolute;inset:0;pointer-events:none;z-index:0}
 .orb{position:absolute;width:34rem;height:34rem;border-radius:9999px;filter:blur(84px);opacity:0.18;mix-blend-mode:screen}
@@ -38,22 +34,18 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
 .orb.cyan{background:linear-gradient(135deg,rgba(6,182,212,0.95),rgba(6,182,212,0.6));right:-10rem;top:6rem;animation:float 9s ease-in-out infinite;animation-delay:1s}
 .orb.coral{background:linear-gradient(135deg,rgba(255,122,89,0.95),rgba(255,122,89,0.6));left:18%;bottom:-12rem;animation:float 10s ease-in-out infinite;animation-delay:2s}
 @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
-
 /* Layout */
 .main-container{max-width:var(--max-width);margin:0 auto;padding:4rem 2rem;display:flex;flex-direction:column;gap:2.5rem;position:relative;z-index:1}
 .hero-card{border-radius:28px;overflow:hidden;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:3rem;box-shadow:0 30px 80px rgba(2,4,23,0.6);display:flex;gap:2rem;align-items:center;justify-content:space-between}
 .hero-title{font-size:clamp(2.2rem,5vw,3.6rem);margin:0;font-weight:900;background:linear-gradient(90deg,var(--coral),var(--cyan),var(--violet));-webkit-background-clip:text;color:transparent;line-height:1}
 .hero-sub{margin-top:.75rem;color:var(--muted);font-size:1.05rem;max-width:60ch}
-
 /* Grid layout for panels */
 .grid-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:start}
 @media (max-width:1100px){.grid-layout{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){.grid-layout{grid-template-columns:1fr;gap:16px}}
-
 /* Glass panels */
 .glass{background:var(--glass);backdrop-filter:blur(14px);border-radius:16px;border:1px solid rgba(255,255,255,0.05);padding:1.5rem}
 .glass-strong{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:18px;padding:2rem;border:1px solid rgba(255,255,255,0.06)}
-
 /* Form */
 .form-group{position:relative;margin-bottom:1rem}
 .input-large{width:100%;padding:1.25rem 1.5rem;border-radius:20px;font-size:1.125rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);color:inherit;outline:none;transition:all .22s ease;box-shadow:inset 0 -1px 0 rgba(255,255,255,0.02)}
@@ -62,25 +54,21 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
 .focus-halo{position:absolute;inset:0;border-radius:20px;pointer-events:none;opacity:0;transition:opacity .28s ease}
 .input-large:focus+.focus-halo{opacity:1;box-shadow:0 30px 80px rgba(6,182,212,0.08)}
 .floating-label{position:absolute;left:1.25rem;top:-0.8rem;background:transparent;padding:0 .5rem;font-size:.95rem;font-weight:800;color:var(--coral)}
-
 /* Buttons */
 .btn{padding:10px 14px;border-radius:12px;border:none;background:rgba(255,255,255,0.04);color:inherit;cursor:pointer;font-weight:700}
 .icon-btn{display:inline-flex;align-items:center;justify-content:center;padding:8px;border-radius:10px;border:none;background:transparent;color:inherit;cursor:pointer}
 .cta{display:inline-block;padding:14px 20px;border-radius:20px;font-weight:900;font-size:1.05rem;border:none;cursor:pointer;background:linear-gradient(90deg,rgba(255,122,89,1),rgba(6,182,212,1));color:#fff;box-shadow:0 18px 60px rgba(124,58,237,0.08);transition:transform .18s ease,box-shadow .18s ease}
 .cta:hover{transform:translateY(-4px);box-shadow:0 36px 120px rgba(124,58,237,0.14)}
 .btn.danger{background:var(--coral);color:#fff;border-radius:10px;padding:8px 12px}
-
 /* Items grid */
 .items-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
 @media (max-width:1100px){.items-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:820px){.items-grid{grid-template-columns:1fr}}
-
 /* Result cards */
 .result-card{border-radius:16px;padding:16px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-top:4px solid transparent;transition:all .28s ease;display:flex;justify-content:space-between;align-items:center}
 .result-card:hover{border-top-color:var(--violet);box-shadow:0 18px 60px rgba(7,12,30,0.6)}
 .item-meta h4{margin:0;font-size:1.15rem}
 .item-meta p{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
-
 /* Sort select styling */
 /* style the select itself */
 #sortSelect {
@@ -99,36 +87,29 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
   background-size: 6px 6px, 6px 6px, 1px 1px;
   background-repeat: no-repeat;
 }
-
 /* placeholder option muted color */
 .sort-placeholder { color: var(--sort-placeholder); font-weight:700; }
-
 /* option color in supported browsers */
 .sort-option { color: var(--sort-accent); font-weight:800; }
-
 /* Toggle switch */
 .toggle-switch{width:56px;height:30px;border-radius:999px;background:rgba(255,255,255,0.06);position:relative;cursor:pointer;display:inline-block}
 .toggle-knob{width:26px;height:26px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:left .22s cubic-bezier(.2,.9,.2,1),transform .22s}
 .light-mode .toggle-switch{background:rgba(15,23,42,0.06)}
 .light-mode .toggle-knob{left:28px;background:#0b1020;color:#fff;transform:rotate(20deg)}
-
 /* Modal */
 .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.45);z-index:60}
 .modal.hidden{display:none}
 .modal-content{background:var(--card, #0f1724);padding:22px;border-radius:12px;max-width:640px;width:92%;box-shadow:0 30px 80px rgba(2,4,23,0.6);position:relative;color:inherit}
 .modal-close{position:absolute;right:12px;top:8px;border:none;background:transparent;font-size:22px;cursor:pointer}
 .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-
 /* Utilities */
 .row{display:flex;gap:1rem;align-items:center}.col{display:flex;flex-direction:column;gap:0.75rem}.center{display:flex;align-items:center;justify-content:center}.muted{color:var(--muted)}.small{font-size:.95rem;color:var(--muted)}
 .light-mode .hero-card{box-shadow:0 20px 40px rgba(15,23,42,0.06);border:1px solid rgba(15,23,42,0.04)}
 .light-mode .input-large{background:#fff;color:#0f1724;border:1px solid rgba(15,23,42,0.06)}
 .light-mode .floating-label{color:var(--coral-light)}
 .light-mode .modal-content{background:#fff;color:#0f1724;box-shadow:0 20px 60px rgba(15,23,42,0.06)}
-
 /* Footer */
 .footer-note{text-align:center;color:var(--muted);font-size:0.95rem;padding-top:1rem}
-
 /* Small responsive tweaks */
 @media (max-width:640px){
   .hero-card{padding:1.5rem;flex-direction:column;align-items:flex-start}
@@ -147,7 +128,6 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
     <div class="orb cyan"></div>
     <div class="orb coral"></div>
   </div>
-
   <div class="main-container">
     <!-- Header / Hero -->
     <header class="hero-card" role="banner">
@@ -155,7 +135,6 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
         <h1 class="hero-title">Item Manager</h1>
         <p class="hero-sub">Create, browse and manage items with a polished UI — search, sort, pagination, and details.</p>
       </div>
-
       <div class="row" style="gap:1rem;align-items:center">
         <!-- Theme toggle -->
         <div class="glass" id="themeToggleWrap" style="display:flex;align-items:center;gap:.75rem">
@@ -165,56 +144,46 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
               <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
             </svg>
           </button>
-
           <div class="toggle-switch" id="themeSwitch" role="switch" aria-checked="false" tabindex="0" aria-label="Toggle theme">
             <div class="toggle-knob" id="toggleKnob"></div>
           </div>
-
           <button id="darkBtn" class="icon-btn" title="Dark mode" aria-label="Dark mode">
             <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5">
               <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
             </svg>
           </button>
         </div>
-
         <button class="cta" id="openAdd">Add Item</button>
       </div>
     </header>
-
     <!-- Panels -->
     <div class="grid-layout" role="main">
       <!-- Left: Form panel -->
       <section class="glass-strong" id="formPanel" aria-labelledby="formTitle">
         <h2 id="formTitle">Add / Edit Item</h2>
-
         <form id="itemForm" novalidate>
           <input type="hidden" id="itemId" />
-
           <div class="form-group">
             <label class="floating-label" for="name">Name</label>
             <input id="name" class="input-large" placeholder="Item name" maxlength="120" required />
             <div class="focus-halo"></div>
           </div>
-
           <div class="form-group">
             <label class="floating-label" for="description">Description</label>
             <textarea id="description" class="input-large" placeholder="Short description" maxlength="1000" required></textarea>
             <div class="focus-halo"></div>
           </div>
-
           <div class="form-group">
             <label class="floating-label" for="price">Price</label>
             <input id="price" class="input-large" type="number" step="0.01" min="0" placeholder="0.00" required />
             <div class="focus-halo"></div>
           </div>
-
           <div class="row" style="justify-content:flex-end;margin-top:0.5rem">
             <button type="button" id="resetBtn" class="btn">Reset</button>
             <button type="submit" id="submitBtn" class="cta">Save Item</button>
           </div>
         </form>
       </section>
-
       <!-- Right: List panel -->
       <section class="glass" id="listPanel" aria-labelledby="listTitle">
         <div class="row" style="justify-content:space-between;align-items:center">
@@ -222,7 +191,6 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
             <h3 id="listTitle" style="margin:0">Items</h3>
             <p class="small muted" style="margin:6px 0 0">Search, sort and browse items</p>
           </div>
-
           <div class="row">
             <input id="searchInput" class="input-large" placeholder="Search items..." style="width:220px;padding:.75rem" />
             <select id="sortSelect" class="input-large" style="width:160px;padding:.6rem">
@@ -231,13 +199,11 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
               <option value="name,desc">Name Z → A</option>
               <option value="price,asc">Price Low → High</option>
               <option value="price,desc">Price High → Low</option>
-              <option value="createdAt,desc">Newest</option>
+              <option value="createdAt,desc" selected>Newest</option>
             </select>
           </div>
         </div>
-
         <div id="itemsContainer" style="margin-top:1rem;display:grid;gap:12px" aria-live="polite"></div>
-
         <div class="row" style="justify-content:center;margin-top:1rem">
           <button id="prevPage" class="btn">Prev</button>
           <div id="pageInfo" class="small muted" style="padding:0 .75rem">Page 1</div>
@@ -245,12 +211,10 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
         </div>
       </section>
     </div>
-
     <footer style="text-align:center;color:var(--muted);font-size:.95rem;padding-top:1rem">
       Built with care • JSON persistence • Responsive UI
     </footer>
   </div>
-
   <!-- Details / Edit Modal -->
   <div id="detailModal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-content">
@@ -265,24 +229,45 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
       </div>
     </div>
   </div>
-
   <script>/**
- * script.js — frontend logic for Item Manager
- * - Endpoints: /api/items
- * - Supports add, edit, delete, list, search, sort, pagination
+ * script.js — Advanced local-only frontend logic for Item Manager
+ * - Storage: localStorage with JSON array for permanent persistence across sessions
+ * - Client-side: Search (fuzzy on name/desc), sort, pagination on full dataset
+ * - No backend: All ops (CRUD) use localStorage; data survives close/reopen, browser clear deletes it
+ * - Enhanced: Validation, optimistic UI, error handling, unique IDs via timestamp
  * - Theme toggle persisted to localStorage
- *
- * NOTE: optional/category field removed from form and payload as requested.
+ * - Fixes: Ensures items display immediately after add/edit/delete with refresh; default sort by newest for visibility
  */
+const STORAGE_KEY = 'itemManagerData';
+let allItems = [];  // Full dataset
+let page = 0, size = 10, sort = 'createdAt,desc', q = '';  // Default sort by newest
+let isLoading = false;
 
-const apiBase = '/api/items';
-let page = 0, size = 10, sort = '', q = '';
+/* LocalStorage helpers */
+function loadFromStorage() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (err) {
+    console.error('Storage load error:', err);
+    showToast('Failed to load data from storage. Starting fresh.');
+    return [];
+  }
+}
+function saveToStorage(items) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    allItems = items;  // Update in-memory
+  } catch (err) {
+    console.error('Storage save error:', err);
+    showToast('Failed to save data. Changes may not persist.');
+  }
+}
 
 /* Theme toggle */
 const themeSwitch = document.getElementById('themeSwitch');
 const lightBtn = document.getElementById('lightBtn');
 const darkBtn = document.getElementById('darkBtn');
-
 function applyTheme(isLight) {
   if (isLight) {
     document.body.classList.add('light-mode');
@@ -294,7 +279,6 @@ function applyTheme(isLight) {
     localStorage.setItem('theme', 'dark');
   }
 }
-
 (function initTheme() {
   const saved = localStorage.getItem('theme');
   if (saved === 'light') applyTheme(true);
@@ -304,7 +288,6 @@ function applyTheme(isLight) {
     applyTheme(prefersLight);
   }
 })();
-
 themeSwitch?.addEventListener('click', () => applyTheme(!document.body.classList.contains('light-mode')));
 themeSwitch?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); themeSwitch.click(); }});
 lightBtn?.addEventListener('click', () => applyTheme(true));
@@ -312,71 +295,99 @@ darkBtn?.addEventListener('click', () => applyTheme(false));
 
 /* App init */
 document.addEventListener('DOMContentLoaded', () => {
+  allItems = loadFromStorage();
   bindForm();
   bindControls();
   loadItems();
 });
 
-/* Form handling */
+/* Loading/error states */
+function showLoading(show = true) {
+  isLoading = show;
+  document.getElementById('loadingIndicator') ? document.getElementById('loadingIndicator').style.display = show ? 'flex' : 'none' : null;
+  const errorEl = document.getElementById('errorIndicator');
+  if (errorEl) errorEl.style.display = 'none';
+  if (show) {
+    document.getElementById('prevPage').disabled = true;
+    document.getElementById('nextPage').disabled = true;
+  }
+}
+function showError(msg) {
+  const errorEl = document.getElementById('errorIndicator');
+  if (errorEl) {
+    errorEl.textContent = `Error: ${msg}`;
+    errorEl.style.display = 'block';
+  }
+  document.getElementById('prevPage').disabled = true;
+  document.getElementById('nextPage').disabled = true;
+}
+
+/* Form handling with validation and optimistic UI */
 function bindForm() {
   const form = document.getElementById('itemForm');
   const resetBtn = document.getElementById('resetBtn');
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    await submitForm();
+    if (validateForm()) {
+      submitForm();
+    }
   });
-
   resetBtn.addEventListener('click', resetForm);
 }
+function validateForm() {
+  const name = document.getElementById('name');
+  const description = document.getElementById('description');
+  const price = document.getElementById('price');
+  let valid = true;
+  [name, description, price].forEach(input => {
+    input.setCustomValidity('');
+    if (!input.checkValidity()) {
+      valid = false;
+      input.reportValidity();
+    }
+  });
+  if (valid && parseFloat(price.value) < 0) {
+    price.setCustomValidity('Price must be non-negative.');
+    price.reportValidity();
+    valid = false;
+  }
+  return valid;
+}
+function submitForm() {
+  const submitBtn = document.getElementById('submitBtn');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<div class="loading" style="width:16px;height:16px;margin-right:8px;"></div>Saving...';
 
-async function submitForm() {
   const id = document.getElementById('itemId').value || null;
   const name = document.getElementById('name').value.trim();
   const description = document.getElementById('description').value.trim();
-  const priceRaw = document.getElementById('price').value;
-  const price = priceRaw === '' ? 0 : parseFloat(priceRaw);
+  const price = parseFloat(document.getElementById('price').value) || 0;
+  const now = new Date().toISOString();
+  let updatedItems;
 
-  if (!name || !description || isNaN(price) || price < 0) {
-    showToast('Please provide valid name, description and non-negative price.');
-    return;
+  if (id) {
+    // Update existing
+    updatedItems = allItems.map(item => 
+      item.id === id ? { ...item, name, description, price, updatedAt: now } : item
+    );
+    showToast('Item updated successfully!');
+  } else {
+    // Add new
+    const newItem = { id: Date.now().toString(), name, description, price, createdAt: now, updatedAt: now };
+    updatedItems = [newItem, ...allItems];  // Add to front for immediate visibility with newest sort
+    showToast('Item added successfully!');
   }
 
-  // payload no longer includes optional fields
-  const payload = { name, description, price };
+  saveToStorage(updatedItems);
+  resetForm();
+  page = 0;  // Reset to first page to show newest
+  loadItems();
+  document.getElementById('listPanel').scrollIntoView({ behavior: 'smooth' });
 
-  try {
-    let res;
-    if (id) {
-      res = await fetch(`${apiBase}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    } else {
-      res = await fetch(apiBase, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-    }
-
-    if (!res.ok) {
-      const text = await res.text();
-      showToast('Failed: ' + (text || res.statusText));
-      return;
-    }
-
-    resetForm();
-    page = 0;
-    loadItems();
-    showToast(id ? 'Item updated' : 'Item added');
-  } catch (err) {
-    console.error(err);
-    showToast('Network error');
-  }
+  submitBtn.innerHTML = originalText;
+  submitBtn.disabled = false;
 }
-
 function resetForm() {
   document.getElementById('itemForm').reset();
   document.getElementById('itemId').value = '';
@@ -387,22 +398,18 @@ function resetForm() {
 function bindControls() {
   const searchInput = document.getElementById('searchInput');
   const sortSelect = document.getElementById('sortSelect');
-
   searchInput?.addEventListener('input', (e) => {
     q = e.target.value.trim();
     page = 0;
     debounceLoad();
   });
-
   sortSelect?.addEventListener('change', (e) => {
-    sort = e.target.value;
+    sort = e.target.value || 'createdAt,desc';  // Fallback to newest
     page = 0;
     loadItems();
   });
-
-  document.getElementById('prevPage').addEventListener('click', () => { if (page > 0) { page--; loadItems(); }});
-  document.getElementById('nextPage').addEventListener('click', () => { page++; loadItems(); });
-
+  document.getElementById('prevPage').addEventListener('click', () => { if (page > 0 && !isLoading) { page--; loadItems(); }});
+  document.getElementById('nextPage').addEventListener('click', () => { if (!isLoading) { page++; loadItems(); }});
   document.getElementById('openAdd').addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     resetForm();
@@ -417,23 +424,52 @@ function debounceLoad() {
   debounceTimer = setTimeout(() => loadItems(), 300);
 }
 
-/* Load items */
-async function loadItems() {
-  const params = new URLSearchParams();
-  if (q) params.append('q', q);
-  params.append('page', page);
-  params.append('size', size);
-  if (sort) params.append('sort', sort);
-
+/* Client-side load items: filter, sort, paginate */
+function loadItems() {
+  showLoading(true);
   try {
-    const res = await fetch(`${apiBase}?${params.toString()}`);
-    if (!res.ok) throw new Error('Failed to fetch items');
-    const data = await res.json();
-    renderItems(data.items || []);
-    updatePageInfo(data.page ?? page, data.size ?? size, data.total ?? (data.items?.length ?? 0));
+    // Filter
+    let filtered = allItems;
+    if (q) {
+      const lowerQ = q.toLowerCase();
+      filtered = allItems.filter(item => 
+        item.name.toLowerCase().includes(lowerQ) || 
+        item.description.toLowerCase().includes(lowerQ)
+      );
+    }
+
+    // Sort
+    let sorted = [...filtered];
+    if (sort) {
+      const [field, direction] = sort.split(',');
+      sorted.sort((a, b) => {
+        let valA = getSortValue(a, field);
+        let valB = getSortValue(b, field);
+        if (direction === 'desc') return valB > valA ? 1 : valB < valA ? -1 : 0;
+        return valA > valB ? 1 : valA < valB ? -1 : 0;
+      });
+    }
+
+    // Paginate
+    const total = sorted.length;
+    const paginated = sorted.slice(page * size, (page + 1) * size);
+
+    // Render
+    renderItems(paginated);
+    updatePageInfo(page, size, total);
   } catch (err) {
-    console.error(err);
-    showToast('Could not load items');
+    console.error('Load error:', err);
+    showError('Failed to process items: ' + err.message);
+  } finally {
+    showLoading(false);
+  }
+}
+function getSortValue(item, field) {
+  switch (field) {
+    case 'name': return item.name.toLowerCase();
+    case 'price': return item.price;
+    case 'createdAt': return new Date(item.createdAt).getTime();
+    default: return 0;
   }
 }
 
@@ -441,8 +477,10 @@ async function loadItems() {
 function renderItems(items) {
   const container = document.getElementById('itemsContainer');
   container.innerHTML = '';
+  const errorEl = document.getElementById('errorIndicator');
+  if (errorEl) errorEl.style.display = 'none';
   if (!items.length) {
-    container.innerHTML = `<div class="result-card"><div class="item-meta"><h4>No items found</h4><p class="muted">Try adding a new item or change search filters.</p></div></div>`;
+    container.innerHTML = `<div class="result-card"><div class="item-meta"><h4>No items found</h4><p class="muted">Try adding a new item or adjust search/sort.</p></div></div>`;
     return;
   }
   items.forEach(item => {
@@ -459,7 +497,7 @@ function renderItems(items) {
           <div class="small muted">${new Date(item.createdAt || Date.now()).toLocaleString()}</div>
         </div>
         <div>
-          <button class="btn" onclick="showDetails(${item.id})">Details</button>
+          <button class="btn" onclick="showDetails('${item.id}')">Details</button>
         </div>
       </div>
     `;
@@ -472,46 +510,36 @@ function updatePageInfo(p, s, total) {
   const pageInfo = document.getElementById('pageInfo');
   const from = total ? (p * s + 1) : 0;
   const to = Math.min((p + 1) * s, total);
-  pageInfo.textContent = `Showing ${total ? from : 0} - ${to} of ${total} (Page ${p + 1})`;
-  document.getElementById('prevPage').disabled = p <= 0;
-  document.getElementById('nextPage').disabled = to >= total;
+  pageInfo.textContent = `Showing ${from} - ${to} of ${total} (Page ${p + 1})`;
+  document.getElementById('prevPage').disabled = p <= 0 || isLoading;
+  document.getElementById('nextPage').disabled = to >= total || isLoading;
 }
 
 /* Details modal */
 const detailModal = document.getElementById('detailModal');
 const closeModalBtn = document.getElementById('closeModal');
-if (closeModalBtn) closeModalBtn.addEventListener('click', () => hideModal());
-
-async function showDetails(id) {
-  try {
-    const res = await fetch(`${apiBase}/${id}`);
-    if (!res.ok) { showToast('Item not found'); return; }
-    const item = await res.json();
-    document.getElementById('detailName').textContent = item.name;
-    document.getElementById('detailDesc').textContent = item.description;
-    document.getElementById('detailPrice').textContent = (item.price ?? 0).toFixed(2);
-    document.getElementById('detailCreated').textContent = new Date(item.createdAt || Date.now()).toLocaleString();
-
-    document.getElementById('editBtn').onclick = () => openEdit(item);
-    document.getElementById('deleteBtn').onclick = () => confirmDelete(item.id);
-
-    showModal();
-  } catch (err) {
-    console.error(err);
-    showToast('Failed to load details');
+closeModalBtn?.addEventListener('click', hideModal);
+function showDetails(id) {
+  const item = allItems.find(item => item.id === id);
+  if (!item) {
+    showToast('Item not found');
+    return;
   }
+  document.getElementById('detailName').textContent = item.name;
+  document.getElementById('detailDesc').textContent = item.description;
+  document.getElementById('detailPrice').textContent = (item.price ?? 0).toFixed(2);
+  document.getElementById('detailCreated').textContent = new Date(item.createdAt || Date.now()).toLocaleString();
+  document.getElementById('editBtn').onclick = () => openEdit(item);
+  document.getElementById('deleteBtn').onclick = () => confirmDelete(item.id);
+  showModal();
 }
-
 function showModal() {
-  if (!detailModal) return;
-  detailModal.classList.remove('hidden');
-  detailModal.setAttribute('aria-hidden', 'false');
+  detailModal?.classList.remove('hidden');
+  detailModal?.setAttribute('aria-hidden', 'false');
 }
-
 function hideModal() {
-  if (!detailModal) return;
-  detailModal.classList.add('hidden');
-  detailModal.setAttribute('aria-hidden', 'true');
+  detailModal?.classList.add('hidden');
+  detailModal?.setAttribute('aria-hidden', 'true');
 }
 
 /* Edit flow */
@@ -523,57 +551,51 @@ function openEdit(item) {
   document.getElementById('price').value = item.price ?? 0;
   document.getElementById('submitBtn').textContent = 'Update Item';
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('name').focus();
 }
 
 /* Delete flow */
-async function confirmDelete(id) {
+function confirmDelete(id) {
   if (!confirm('Delete this item permanently?')) return;
+  const deleteBtn = document.getElementById('deleteBtn');
+  const originalText = deleteBtn.textContent;
+  deleteBtn.disabled = true;
+  deleteBtn.innerHTML = '<div class="loading" style="width:16px;height:16px;margin-right:8px;"></div>Deleting...';
   try {
-    const res = await fetch(`${apiBase}/${id}`, { method: 'DELETE' });
-    if (res.status === 204) {
-      showToast('Deleted');
-      hideModal();
-      loadItems();
-    } else {
-      showToast('Failed to delete');
-    }
+    const updatedItems = allItems.filter(item => item.id !== id);
+    saveToStorage(updatedItems);
+    showToast('Deleted successfully!');
+    hideModal();
+    if (page > 0 && updatedItems.length <= page * size) page--;
+    loadItems();
   } catch (err) {
-    console.error(err);
-    showToast('Network error');
+    showToast('Delete failed: ' + err.message);
+  } finally {
+    deleteBtn.textContent = originalText;
+    deleteBtn.disabled = false;
   }
 }
 
 /* Helpers */
 function truncate(str, n) {
-  if (!str) return '';
-  return str.length > n ? str.slice(0, n - 1) + '…' : str;
+  return str?.length > n ? str.slice(0, n - 1) + '…' : str || '';
 }
-
 function escapeHtml(unsafe) {
-  if (!unsafe) return '';
-  return unsafe.replace(/[&<"'>]/g, function (m) {
-    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m];
-  });
+  return unsafe?.replace(/[&<"'>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]) || '';
 }
 
 /* Toast */
 let toastTimer = null;
 function showToast(msg) {
-  if (!document.body) { alert(msg); return; }
   let toast = document.getElementById('app-toast');
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'app-toast';
-    toast.style.position = 'fixed';
-    toast.style.right = '20px';
-    toast.style.bottom = '20px';
-    toast.style.background = 'rgba(15,23,42,0.92)';
-    toast.style.color = '#fff';
-    toast.style.padding = '12px 16px';
-    toast.style.borderRadius = '10px';
-    toast.style.boxShadow = '0 10px 30px rgba(2,6,23,0.6)';
-    toast.style.zIndex = 9999;
-    toast.style.transition = 'opacity .28s ease';
+    toast.style.cssText = `
+      position: fixed; right: 20px; bottom: 20px; background: rgba(15,23,42,0.92); 
+      color: #fff; padding: 12px 16px; border-radius: 10px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); 
+      z-index: 9999; transition: opacity .28s ease; max-width: 300px; word-break: break-word;
+    `;
     document.body.appendChild(toast);
   }
   toast.textContent = msg;

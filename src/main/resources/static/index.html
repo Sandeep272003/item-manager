@@ -69,11 +69,6 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
 .result-card:hover{border-top-color:var(--violet);box-shadow:0 18px 60px rgba(7,12,30,0.6)}
 .item-meta h4{margin:0;font-size:1.15rem}
 .item-meta p{margin:6px 0 0;color:var(--muted);font-size:0.95rem}
-/* Loading spinner */
-.loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-/* Error message */
-.error-msg { color: var(--coral); background: rgba(255,122,89,0.1); padding: 12px; border-radius: 8px; margin: 12px 0; border-left: 4px solid var(--coral); }
 /* Sort select styling */
 /* style the select itself */
 #sortSelect {
@@ -113,8 +108,6 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
 .light-mode .input-large{background:#fff;color:#0f1724;border:1px solid rgba(15,23,42,0.06)}
 .light-mode .floating-label{color:var(--coral-light)}
 .light-mode .modal-content{background:#fff;color:#0f1724;box-shadow:0 20px 60px rgba(15,23,42,0.06)}
-.light-mode .loading { border-color: rgba(0,0,0,.3); border-top-color: #0f1724; }
-.light-mode .error-msg { color: var(--coral-light); background: rgba(255,107,74,0.1); border-left-color: var(--coral-light); }
 /* Footer */
 .footer-note{text-align:center;color:var(--muted);font-size:0.95rem;padding-top:1rem}
 /* Small responsive tweaks */
@@ -140,7 +133,7 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
     <header class="hero-card" role="banner">
       <div>
         <h1 class="hero-title">Item Manager</h1>
-        <p class="hero-sub">Create, browse and manage items with a polished UI — search, sort, pagination, and details. Data persists locally via JSON in browser storage.</p>
+        <p class="hero-sub">Create, browse and manage items with a polished UI — search, sort, pagination, and details.</p>
       </div>
       <div class="row" style="gap:1rem;align-items:center">
         <!-- Theme toggle -->
@@ -196,7 +189,7 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
         <div class="row" style="justify-content:space-between;align-items:center">
           <div>
             <h3 id="listTitle" style="margin:0">Items</h3>
-            <p class="small muted" style="margin:6px 0 0">Search, sort and browse items (local JSON storage)</p>
+            <p class="small muted" style="margin:6px 0 0">Search, sort and browse items</p>
           </div>
           <div class="row">
             <input id="searchInput" class="input-large" placeholder="Search items..." style="width:220px;padding:.75rem" />
@@ -210,10 +203,7 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
             </select>
           </div>
         </div>
-        <div id="itemsContainer" style="margin-top:1rem;display:grid;gap:12px" aria-live="polite">
-          <div id="loadingIndicator" class="center" style="display:none;"><div class="loading"></div> <span class="small">Loading items...</span></div>
-          <div id="errorIndicator" class="error-msg" style="display:none;"></div>
-        </div>
+        <div id="itemsContainer" style="margin-top:1rem;display:grid;gap:12px" aria-live="polite"></div>
         <div class="row" style="justify-content:center;margin-top:1rem">
           <button id="prevPage" class="btn">Prev</button>
           <div id="pageInfo" class="small muted" style="padding:0 .75rem">Page 1</div>
@@ -222,7 +212,7 @@ html,body,#root{height:100%;margin:0;font-family:Inter,Roboto,system-ui,sans-ser
       </section>
     </div>
     <footer style="text-align:center;color:var(--muted);font-size:.95rem;padding-top:1rem">
-      Built with care • Local JSON persistence • Responsive UI
+      Built with care • JSON persistence • Responsive UI
     </footer>
   </div>
   <!-- Details / Edit Modal -->
@@ -314,8 +304,9 @@ document.addEventListener('DOMContentLoaded', () => {
 /* Loading/error states */
 function showLoading(show = true) {
   isLoading = show;
-  document.getElementById('loadingIndicator').style.display = show ? 'flex' : 'none';
-  document.getElementById('errorIndicator').style.display = 'none';
+  document.getElementById('loadingIndicator') ? document.getElementById('loadingIndicator').style.display = show ? 'flex' : 'none' : null;
+  const errorEl = document.getElementById('errorIndicator');
+  if (errorEl) errorEl.style.display = 'none';
   if (show) {
     document.getElementById('prevPage').disabled = true;
     document.getElementById('nextPage').disabled = true;
@@ -323,8 +314,10 @@ function showLoading(show = true) {
 }
 function showError(msg) {
   const errorEl = document.getElementById('errorIndicator');
-  errorEl.textContent = `Error: ${msg}`;
-  errorEl.style.display = 'block';
+  if (errorEl) {
+    errorEl.textContent = `Error: ${msg}`;
+    errorEl.style.display = 'block';
+  }
   document.getElementById('prevPage').disabled = true;
   document.getElementById('nextPage').disabled = true;
 }
@@ -382,7 +375,7 @@ function submitForm() {
   } else {
     // Add new
     const newItem = { id: Date.now().toString(), name, description, price, createdAt: now, updatedAt: now };
-    updatedItems = [...allItems, newItem];
+    updatedItems = [newItem, ...allItems];  // Add to front for immediate visibility with newest sort
     showToast('Item added successfully!');
   }
 
@@ -461,11 +454,9 @@ function loadItems() {
     const total = sorted.length;
     const paginated = sorted.slice(page * size, (page + 1) * size);
 
-    // Mock response structure
-    const data = { items: paginated, page, size, total };
-
-    renderItems(data.items);
-    updatePageInfo(data.page, data.size, data.total);
+    // Render
+    renderItems(paginated);
+    updatePageInfo(page, size, total);
   } catch (err) {
     console.error('Load error:', err);
     showError('Failed to process items: ' + err.message);
@@ -486,7 +477,8 @@ function getSortValue(item, field) {
 function renderItems(items) {
   const container = document.getElementById('itemsContainer');
   container.innerHTML = '';
-  document.getElementById('errorIndicator').style.display = 'none';
+  const errorEl = document.getElementById('errorIndicator');
+  if (errorEl) errorEl.style.display = 'none';
   if (!items.length) {
     container.innerHTML = `<div class="result-card"><div class="item-meta"><h4>No items found</h4><p class="muted">Try adding a new item or adjust search/sort.</p></div></div>`;
     return;
